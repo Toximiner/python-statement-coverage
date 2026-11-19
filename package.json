@@ -2,7 +2,7 @@
   "name": "python-statement-coverage",
   "displayName": "Python Statement Coverage",
   "description": "PyCharm-style coverage backgrounds across complete Python statements.",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "publisher": "Toximiner",
   "license": "MIT",
   "engines": {
@@ -89,7 +89,7 @@
           "type": "boolean",
           "default": true,
           "scope": "resource",
-          "description": "Fill blank lines between adjacent statements with the same coverage state. Does not bridge comments or unmeasured code."
+          "description": "Fill blank lines between measured statements using the previous statement's color, including transitions between different coverage states. Does not bridge comments or unmeasured code."
         },
         "pythonStatementCoverage.hideStale": {
           "type": "boolean",

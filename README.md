@@ -8,7 +8,7 @@ instead of leaving gaps on continuation lines omitted from coverage.py reports.
 
 - Green for covered statements, red for uncovered statements, amber for partially covered branches.
 - Continuous backgrounds across multi-line expressions.
-- Blank lines between statements with the same coverage state inherit that color.
+- Blank lines between measured statements inherit the previous statement's color, including color transitions.
 - Automatic refresh when the XML report changes.
 - Status bar percentage and one-click show/hide toggle.
 - Unsaved files and files saved after the report are hidden to avoid stale line mappings.
@@ -20,7 +20,7 @@ instead of leaving gaps on continuation lines omitted from coverage.py reports.
 Real VS Code screenshots from a small demo measured with coverage.py.
 The demo includes covered statements, a partially covered branch and uncovered calls.
 
-![Coverage enabled: complete expressions and matching blank lines are highlighted](docs/screenshots/coverage-on.png)
+![Coverage enabled: complete expressions and blank lines are highlighted](docs/screenshots/coverage-on.png)
 
 Click the status-bar coverage indicator to hide the backgrounds:
 
@@ -49,7 +49,7 @@ You can also build an installable VSIX from this repository:
 ```sh
 npm ci
 npm run package
-code --install-extension python-statement-coverage-0.1.1.vsix
+code --install-extension python-statement-coverage-0.1.2.vsix
 ```
 
 Alternatively, download the `extension-vsix` artifact from a successful GitHub Actions run,
@@ -107,7 +107,7 @@ All settings use the `pythonStatementCoverage.` prefix.
 | `enabled` | `true` | Show coverage backgrounds. |
 | `reportPath` | `.vscode/coverage.xml` | Absolute path or path relative to the workspace folder. The default falls back to root `coverage.xml`. |
 | `pythonPath` | empty | Python executable; auto-detects `.venv`, `python.defaultInterpreterPath`, then system Python. |
-| `fillBlankLines` | `true` | Fill whitespace-only gaps between equally colored statements. |
+| `fillBlankLines` | `true` | Fill whitespace-only gaps with the previous statement's color. |
 | `hideStale` | `true` | Hide files saved after report generation. Unsaved files are always hidden. |
 | `showRuler` | `true` | Show coverage markers in the overview ruler. |
 | `coveredColor` | `rgba(45, 100, 35, 0.5)` | Covered background. |
@@ -124,7 +124,7 @@ shows the original report line. It does not mean each continuation line was meas
 This approximates PyCharm's visual presentation; it does not reproduce its coverage engine.
 In particular, a covered `def` line indicates that the function was defined, not that its
 body ran. Comments and unmeasured statements between measured statements are not filled.
-Whitespace gaps between different states stay unpainted.
+Whitespace gaps between different states continue the previous statement's color; this is visual grouping, not an additional coverage measurement.
 
 Reports must resolve to local source paths. Container/remote path remapping is not yet
 implemented. The extension supports trusted, filesystem-backed workspaces, not browser-only

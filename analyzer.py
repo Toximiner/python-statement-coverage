@@ -62,7 +62,7 @@ def expand_coverage(source, lines, fill_blank_lines=True):
         source_lines = source.splitlines()
         measured = sorted(result)
         for previous, following in zip(measured, measured[1:]):
-            if following <= previous + 1 or result[previous][0] != result[following][0]:
+            if following <= previous + 1:
                 continue
             # Only bridge whitespace: never infer coverage for comments or unmeasured code.
             if following > len(source_lines) or any(

@@ -63,9 +63,23 @@ class StatementTests(unittest.TestCase):
         self.assertEqual(states('if x: pass\n\nif y: pass\n', [dict(line, number='1'), dict(line, number='3')]),
                          {1: 'partial', 2: 'partial', 3: 'partial'})
 
-    def test_gap_between_different_states_stays_unpainted(self):
-        result = states('x = 1\n\ny = 2\n', [{'number': '1', 'hits': '1'}, {'number': '3', 'hits': '0'}])
-        self.assertEqual(result, {1: 'covered', 3: 'uncovered'})
+    def test_gap_between_different_states_uses_previous_statement(self):
+        measured_states = [
+            ({'hits': '1'}, 'covered'),
+            ({'hits': '0'}, 'uncovered'),
+            ({'hits': '1', 'branch': 'true', 'condition-coverage': '50% (1/2)'}, 'partial'),
+        ]
+        for previous, previous_state in measured_states:
+            for following, following_state in measured_states:
+                with self.subTest(previous=previous_state, following=following_state):
+                    ranges = expand_coverage('x = 1\n\n  \ny = 2\n',
+                                             [dict(previous, number='1'), dict(following, number='4')])
+                    actual = {number: r['state'] for r in ranges
+                              for number in range(r['start'], r['end'] + 1)}
+                    self.assertEqual(actual, {1: previous_state, 2: previous_state,
+                                              3: previous_state, 4: following_state})
+                    self.assertEqual(ranges[0]['anchor'], 1)
+                    self.assertEqual(ranges[0]['end'], 3)
 
     def test_does_not_bridge_comments_or_unmeasured_statements(self):
         for middle in ['# comment', 'z = 3']:

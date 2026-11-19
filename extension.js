@@ -158,7 +158,7 @@ function activate(context) {
         const label = { covered: 'Covered', uncovered: 'Uncovered', partial: 'Partially covered branches' }[range.state];
         decorations[range.state].push({
           range: new vscode.Range(range.start - 1, 0, range.end - 1, editor.document.lineAt(range.end - 1).text.length),
-          hoverMessage: `${label} — report line ${range.anchor}. Continuation lines share the statement's status; they are not independently measured.`,
+          hoverMessage: `${label} — report line ${range.anchor}. Continuation and blank lines inherit the statement's status for display; they are not independently measured.`,
         });
       }
       const types = styleFor(editor.document.uri);
