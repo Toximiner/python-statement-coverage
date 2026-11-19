@@ -28,6 +28,19 @@ Click the status-bar coverage indicator to hide the backgrounds:
 
 ## Install
 
+In VS Code, open **Extensions** and search for **Python Statement Coverage** by **Toximiner**.
+
+[Open in Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=Toximiner.python-statement-coverage)
+
+```sh
+code --install-extension Toximiner.python-statement-coverage
+```
+
+New Marketplace versions can take a few minutes to become searchable after publication.
+If you previously installed the local `local-tools` build, disable or uninstall it to avoid overlapping highlights.
+
+### Install from VSIX
+
 Download the `.vsix` from [GitHub Releases](https://github.com/Toximiner/python-statement-coverage/releases/latest)
 and run **Extensions: Install from VSIX…** in VS Code.
 
@@ -43,8 +56,7 @@ Alternatively, download the `extension-vsix` artifact from a successful GitHub A
 unzip it, and use **Extensions: Install from VSIX…** in VS Code.
 Reload the VS Code window after installing or updating the extension.
 
-The extension is installed locally; it is not published in Visual Studio Marketplace.
-Marketplace publisher: `Toximiner`. Automatic publication is prepared; the listing becomes available after the first successful Marketplace publish. See [publishing setup](docs/PUBLISHING.md).
+Marketplace publisher: `Toximiner`. Tagged releases publish automatically through GitHub Actions and Marketplace Trusted Publishing. See [publishing setup](docs/PUBLISHING.md).
 
 ## Generate coverage
 
