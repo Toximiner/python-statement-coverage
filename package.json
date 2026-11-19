@@ -3,7 +3,7 @@
   "displayName": "Python Statement Coverage",
   "description": "PyCharm-style coverage backgrounds across complete Python statements.",
   "version": "0.1.1",
-  "publisher": "local-tools",
+  "publisher": "Toximiner",
   "license": "MIT",
   "engines": {
     "vscode": "^1.85.0"
@@ -110,5 +110,12 @@
   },
   "devDependencies": {
     "@vscode/vsce": "4.1.1"
-  }
+  },
+  "keywords": [
+    "python",
+    "coverage",
+    "pytest",
+    "pycharm",
+    "testing"
+  ]
 }

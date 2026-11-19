@@ -1,4 +1,4 @@
-name: Test and package
+name: Test, package and release
 
 on:
   push:
@@ -25,6 +25,12 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
+      - name: Validate release version
+        if: startsWith(github.ref, 'refs/tags/')
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          node -e 'const version = require("./package.json").version; if (process.env.RELEASE_TAG !== `v${version}`) throw new Error("Tag must match package.json version: v" + version);'
       - run: npm ci
       - run: npm run check
       - run: npm test
@@ -35,3 +41,42 @@ jobs:
         with:
           name: extension-vsix
           path: '*.vsix'
+          if-no-files-found: error
+
+  release:
+    needs: test
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: write
+    env:
+      RELEASE_TAG: ${{ github.ref_name }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/download-artifact@v4
+        with:
+          name: extension-vsix
+          path: assets
+      - name: Prepare release notes
+        run: |
+          node <<'JS'
+          const fs = require('node:fs');
+          const version = require('./package.json').version;
+          const changelog = fs.readFileSync('CHANGELOG.md', 'utf8');
+          const entry = changelog.split(`## ${version}\n`)[1]?.split('\n## ')[0]?.trim();
+          if (!entry) throw new Error('Missing changelog entry for ' + version);
+          fs.writeFileSync('release-notes.md', entry + '\n\n## Installation\n\nDownload the `.vsix` asset below and run **Extensions: Install from VSIX…** in VS Code, then reload the window.\n\n`SHA256SUMS` contains the package checksum.\n');
+          JS
+      - name: Calculate checksum
+        working-directory: assets
+        run: sha256sum *.vsix > SHA256SUMS
+      - name: Publish GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          gh release create "$RELEASE_TAG" assets/*.vsix assets/SHA256SUMS \
+            --verify-tag --title "$RELEASE_TAG" --notes-file release-notes.md

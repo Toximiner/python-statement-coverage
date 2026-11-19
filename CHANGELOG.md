@@ -5,6 +5,7 @@
 - Fill blank lines between statements with matching coverage states.
 - Add the `fillBlankLines` setting.
 - Prepare standalone repository, documentation and CI packaging.
+- Add VS Code screenshots, GitHub Releases and OIDC Marketplace publishing setup.
 
 ## 0.1.0
 

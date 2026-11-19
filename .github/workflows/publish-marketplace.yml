@@ -1,0 +1,46 @@
+name: Publish to Visual Studio Marketplace
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    if: vars.MARKETPLACE_PUBLISHER != ''
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: read
+      id-token: write
+    env:
+      MARKETPLACE_PUBLISHER: ${{ vars.MARKETPLACE_PUBLISHER }}
+      RELEASE_TAG: ${{ github.ref_type == 'tag' && github.ref_name || '' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate publisher and version
+        run: |
+          node <<'JS'
+          const pkg = require('./package.json');
+          if (pkg.publisher === 'local-tools' || pkg.publisher !== process.env.MARKETPLACE_PUBLISHER) {
+            throw new Error('Set package.json publisher to your registered Marketplace publisher ID first.');
+          }
+          if (process.env.RELEASE_TAG && process.env.RELEASE_TAG !== `v${pkg.version}`) {
+            throw new Error('Tag must match package.json version.');
+          }
+          JS
+      - run: npm ci
+      - run: npm run check
+      - run: npm test
+      - run: npm run package
+      - name: Publish using Marketplace Trusted Publishing
+        run: npx vsce publish --oidc --packagePath *.vsix

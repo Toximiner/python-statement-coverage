@@ -15,9 +15,23 @@ instead of leaving gaps on continuation lines omitted from coverage.py reports.
 - Original report statistics remain unchanged: extra display lines do not inflate coverage.
 - No runtime npm dependencies, telemetry, network uploads or project-code imports.
 
+## Screenshots
+
+Real VS Code screenshots from a small demo measured with coverage.py.
+The demo includes covered statements, a partially covered branch and uncovered calls.
+
+![Coverage enabled: complete expressions and matching blank lines are highlighted](docs/screenshots/coverage-on.png)
+
+Click the status-bar coverage indicator to hide the backgrounds:
+
+![Coverage disabled with the status bar toggle](docs/screenshots/coverage-off.png)
+
 ## Install
 
-Build an installable VSIX from this repository:
+Download the `.vsix` from [GitHub Releases](https://github.com/Toximiner/python-statement-coverage/releases/latest)
+and run **Extensions: Install from VSIX…** in VS Code.
+
+You can also build an installable VSIX from this repository:
 
 ```sh
 npm ci
@@ -30,7 +44,7 @@ unzip it, and use **Extensions: Install from VSIX…** in VS Code.
 Reload the VS Code window after installing or updating the extension.
 
 The extension is installed locally; it is not published in Visual Studio Marketplace.
-The `local-tools` publisher name is a local extension identifier, not a Marketplace account.
+Marketplace publisher: `Toximiner`. Automatic publication is prepared; the listing becomes available after the first successful Marketplace publish. See [publishing setup](docs/PUBLISHING.md).
 
 ## Generate coverage
 
@@ -121,7 +135,7 @@ npm run package
 Tests cover statement expansion, branch states, blank-line filling, exact path matching,
 stale/missing reports, unchanged statistics and editor integration through a mocked VS Code API.
 The editor integration test invokes the real Python analyzer; it is not a visual UI test.
-GitHub Actions runs these checks and uploads the VSIX as a build artifact.
+GitHub Actions runs these checks and uploads the VSIX as a build artifact. Version tags publish a GitHub Release with the VSIX and checksum. See [release and Marketplace publishing](docs/PUBLISHING.md).
 
 ## License
 
