@@ -1,0 +1,8 @@
+node_modules/
+__pycache__/
+*.py[cod]
+*.vsix
+.venv/
+.coverage*
+coverage.xml
+.DS_Store

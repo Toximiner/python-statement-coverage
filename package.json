@@ -1,0 +1,114 @@
+{
+  "name": "python-statement-coverage",
+  "displayName": "Python Statement Coverage",
+  "description": "PyCharm-style coverage backgrounds across complete Python statements.",
+  "version": "0.1.1",
+  "publisher": "local-tools",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Testing"
+  ],
+  "activationEvents": [
+    "onLanguage:python"
+  ],
+  "main": "./extension.js",
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": false
+    }
+  },
+  "scripts": {
+    "test": "python3 -m unittest discover -s tests -v && node --test tests/extension.test.js",
+    "package": "vsce package --no-dependencies",
+    "check": "node --check extension.js"
+  },
+  "contributes": {
+    "commands": [
+      {
+        "command": "pythonStatementCoverage.toggle",
+        "title": "Python Statement Coverage: Toggle"
+      },
+      {
+        "command": "pythonStatementCoverage.refresh",
+        "title": "Python Statement Coverage: Refresh"
+      },
+      {
+        "command": "pythonStatementCoverage.output",
+        "title": "Python Statement Coverage: Show Output"
+      }
+    ],
+    "configuration": {
+      "title": "Python Statement Coverage",
+      "properties": {
+        "pythonStatementCoverage.enabled": {
+          "type": "boolean",
+          "default": true,
+          "scope": "resource",
+          "description": "Show coverage backgrounds across complete Python statements."
+        },
+        "pythonStatementCoverage.reportPath": {
+          "type": "string",
+          "default": ".vscode/coverage.xml",
+          "scope": "resource",
+          "description": "Cobertura XML report, absolute or relative to the workspace folder. Falls back to coverage.xml when the default report is absent."
+        },
+        "pythonStatementCoverage.pythonPath": {
+          "type": "string",
+          "default": "",
+          "scope": "resource",
+          "description": "Python executable for the standard-library-only analyzer. Empty uses .venv, then python.defaultInterpreterPath, then system Python."
+        },
+        "pythonStatementCoverage.coveredColor": {
+          "type": "string",
+          "default": "rgba(45, 100, 35, 0.5)",
+          "scope": "resource",
+          "description": "Background of covered statements."
+        },
+        "pythonStatementCoverage.uncoveredColor": {
+          "type": "string",
+          "default": "rgba(180, 0, 0, 0.55)",
+          "scope": "resource",
+          "description": "Background of uncovered statements."
+        },
+        "pythonStatementCoverage.partialColor": {
+          "type": "string",
+          "default": "rgba(180, 135, 0, 0.45)",
+          "scope": "resource",
+          "description": "Background of executed statements with missing branches."
+        },
+        "pythonStatementCoverage.showRuler": {
+          "type": "boolean",
+          "default": true,
+          "scope": "resource",
+          "description": "Also show coverage in the overview ruler."
+        },
+        "pythonStatementCoverage.fillBlankLines": {
+          "type": "boolean",
+          "default": true,
+          "scope": "resource",
+          "description": "Fill blank lines between adjacent statements with the same coverage state. Does not bridge comments or unmeasured code."
+        },
+        "pythonStatementCoverage.hideStale": {
+          "type": "boolean",
+          "default": true,
+          "scope": "resource",
+          "description": "Hide coverage when a source file has been saved after the report was generated. Unsaved files are always hidden."
+        }
+      }
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Toximiner/python-statement-coverage.git"
+  },
+  "homepage": "https://github.com/Toximiner/python-statement-coverage#readme",
+  "bugs": {
+    "url": "https://github.com/Toximiner/python-statement-coverage/issues"
+  },
+  "devDependencies": {
+    "@vscode/vsce": "4.1.1"
+  }
+}
