@@ -117,5 +117,6 @@
     "pytest",
     "pycharm",
     "testing"
-  ]
+  ],
+  "icon": "assets/icon.png"
 }
