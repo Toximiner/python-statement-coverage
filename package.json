@@ -2,7 +2,7 @@
   "name": "python-statement-coverage",
   "displayName": "Python Statement Coverage",
   "description": "PyCharm-style coverage backgrounds across complete Python statements.",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "publisher": "Toximiner",
   "license": "MIT",
   "engines": {

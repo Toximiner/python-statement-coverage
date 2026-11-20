@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.3
+
+- Add an extension icon showing complete statements and coverage states.
+
 ## 0.1.2
 
 - Fill blank lines at transitions between different coverage states with the previous statement's color.

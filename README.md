@@ -49,7 +49,7 @@ You can also build an installable VSIX from this repository:
 ```sh
 npm ci
 npm run package
-code --install-extension python-statement-coverage-0.1.2.vsix
+code --install-extension python-statement-coverage-0.1.3.vsix
 ```
 
 Alternatively, download the `extension-vsix` artifact from a successful GitHub Actions run,
